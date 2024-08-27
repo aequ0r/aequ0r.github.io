@@ -1,12 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const username = 'your-github-username';
-    const token = 'your-github-token'; // Store this securely, e.g., in an environment variable if server-side
+    const username = 'aequ0r';
 
-    fetch(`https://api.github.com/users/${username}/repos`, {
-        headers: {
-            'Authorization': `token ${token}`
-        }
-    })
+    fetch(`https://api.github.com/users/${username}/repos`)
     .then(response => response.json())
     .then(data => {
         const projectsContainer = document.getElementById('projects');
