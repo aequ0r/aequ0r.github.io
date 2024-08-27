@@ -1,25 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Fetch projects from GitHub
-    fetch('https://api.github.com/users/aequ0r/repos')
-        .then(response => response.json())
-        .then(data => {
-            const projectList = document.getElementById('project-list');
-            data.forEach(repo => {
-                const card = document.createElement('div');
-                card.className = 'project-card';
-                card.innerHTML = `
-                    <h3>${repo.name}</h3>
-                    <p>${repo.description || 'No description available.'}</p>
-                    <a href="${repo.html_url}" target="_blank">View on GitHub</a>
-                `;
-                projectList.appendChild(card);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching GitHub projects:', error);
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    const username = 'your-github-username';
+    const token = 'your-github-token'; // Store this securely, e.g., in an environment variable if server-side
 
-    // Detect and apply theme based on system preference
-    const theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
+    fetch(`https://api.github.com/users/${username}/repos`, {
+        headers: {
+            'Authorization': `token ${token}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const projectsContainer = document.getElementById('projects');
+        
+        data.forEach(repo => {
+            const projectCard = document.createElement('div');
+            projectCard.classList.add('project-card');
+
+            projectCard.innerHTML = `
+                <h3>${repo.name}</h3>
+                <p>${repo.description || 'No description available.'}</p>
+                <a href="${repo.html_url}" target="_blank">View on GitHub</a>
+            `;
+
+            projectsContainer.appendChild(projectCard);
+        });
+    })
+    .catch(error => console.error('Error fetching GitHub repositories:', error));
 });
